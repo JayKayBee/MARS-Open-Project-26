@@ -56,12 +56,12 @@ def load_model():
 #Feature extraction 
     def extract_mfcc(file_path):
     audio, _ = librosa.load(file_path, sr=SR, duration=4.0)
-    mfcc = librosa.feature.mfcc(y=audio, sr=SR, n_mfcc=N_MFCC)
-    if mfcc.shape[1] < MAX_LEN:
-        mfcc = np.pad(mfcc, ((0, 0), (0, MAX_LEN - mfcc.shape[1])), mode='constant')
-    else:
-        mfcc = mfcc[:, :MAX_LEN]
-    return mfcc
+        mfcc = librosa.feature.mfcc(y=audio, sr=SR, n_mfcc=N_MFCC)
+        if mfcc.shape[1] < MAX_LEN:
+            mfcc = np.pad(mfcc, ((0, 0), (0, MAX_LEN - mfcc.shape[1])), mode='constant')
+        else:
+            mfcc = mfcc[:, :MAX_LEN]
+        return mfcc
 
 
 def predict(file_path, model, device):
