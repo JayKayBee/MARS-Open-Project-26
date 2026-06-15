@@ -45,16 +45,8 @@ class AudioCNN(nn.Module):
 
 
 @st.cache_resource
-def load_model():
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model  = AudioCNN().to(device)
-    model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
-    model.eval()
-    return model, device
-
-
 #Feature extraction 
-    def extract_mfcc(file_path):
+def extract_mfcc(file_path):
         audio, _ = librosa.load(file_path, sr=SR, duration=4.0)
         mfcc = librosa.feature.mfcc(y=audio, sr=SR, n_mfcc=N_MFCC)
         if mfcc.shape[1] < MAX_LEN:
@@ -62,6 +54,13 @@ def load_model():
         else:
             mfcc = mfcc[:, :MAX_LEN]
         return mfcc
+
+def load_model():
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model  = AudioCNN().to(device)
+    model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
+    model.eval()
+    return model, device
 
 
 def predict(file_path, model, device):
