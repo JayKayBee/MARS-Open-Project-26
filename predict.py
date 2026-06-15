@@ -5,13 +5,13 @@ import librosa
 import torch
 import torch.nn as nn
 
-# ── Constants (must match training) ──────────────────────────────────────────
+#Contsants 
 N_MFCC  = 40
 MAX_LEN = 200
 SR      = 16000
 MODEL_PATH = "deepfake_audio_cnn.pth"
 
-# ── Model definition (must match training) ────────────────────────────────────
+#Model Definition
 class AudioCNN(nn.Module):
     def __init__(self):
         super().__init__()
@@ -43,8 +43,8 @@ class AudioCNN(nn.Module):
         return self.classifier(self.conv_block(x))
 
 
-# ── Feature extraction ────────────────────────────────────────────────────────
-def extract_mfcc(file_path):
+#Feature extraction
+    def extract_mfcc(file_path):
     audio, _ = librosa.load(file_path, sr=SR, duration=4.0)
     mfcc = librosa.feature.mfcc(y=audio, sr=SR, n_mfcc=N_MFCC)
     if mfcc.shape[1] < MAX_LEN:
@@ -54,8 +54,8 @@ def extract_mfcc(file_path):
     return mfcc
 
 
-# ── Inference ─────────────────────────────────────────────────────────────────
-def predict(file_path, model, device):
+# inference
+    def predict(file_path, model, device):
     mfcc = extract_mfcc(file_path)
     x = torch.tensor(mfcc[np.newaxis, np.newaxis, :, :], dtype=torch.float32).to(device)
     model.eval()
@@ -68,8 +68,8 @@ def predict(file_path, model, device):
     return label, confidence
 
 
-# ── Main ──────────────────────────────────────────────────────────────────────
-if __name__ == "__main__":
+#main
+    if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python predict.py <path_to_audio.wav>")
         sys.exit(1)
