@@ -6,13 +6,13 @@ import torch.nn as nn
 import tempfile
 import os
 
-# ── Constants ─────────────────────────────────────────────────────────────────
+#constants
 N_MFCC     = 40
 MAX_LEN    = 200
 SR         = 16000
 MODEL_PATH = "deepfake_audio_cnn.pth"
 
-# ── Model ─────────────────────────────────────────────────────────────────────
+# Model
 class AudioCNN(nn.Module):
     def __init__(self):
         super().__init__()
@@ -53,8 +53,8 @@ def load_model():
     return model, device
 
 
-# ── Feature extraction ────────────────────────────────────────────────────────
-def extract_mfcc(file_path):
+#Feature extraction 
+    def extract_mfcc(file_path):
     audio, _ = librosa.load(file_path, sr=SR, duration=4.0)
     mfcc = librosa.feature.mfcc(y=audio, sr=SR, n_mfcc=N_MFCC)
     if mfcc.shape[1] < MAX_LEN:
@@ -76,7 +76,7 @@ def predict(file_path, model, device):
     return label, confidence, probs
 
 
-# ── UI ────────────────────────────────────────────────────────────────────────
+#UI
 st.set_page_config(page_title="Deepfake Audio Detector", page_icon="🎙️", layout="centered")
 
 st.title("🎙️ Deepfake Audio Detector")
