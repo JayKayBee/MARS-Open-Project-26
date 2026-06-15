@@ -9,3 +9,7 @@ seaborn
 streamlit
 torch
 torchaudio
+numba
+llvmlite
+pooch
+soxr
