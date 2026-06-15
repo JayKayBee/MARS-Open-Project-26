@@ -30,11 +30,11 @@ class AudioCNN(nn.Module):
             nn.Conv2d(64, 128, kernel_size=3, padding=1),
             nn.BatchNorm2d(128),
             nn.ReLU(),
-            nn.AdaptiveAvgPool2d((4, 4))
+            nn.MaxPool2d(2)
         )
         self.classifier = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(128 * 4 * 4, 256),
+            nn.Linear(128 * 5 * 25, 256),
             nn.ReLU(),
             nn.Dropout(0.4),
             nn.Linear(256, 2)
